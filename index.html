@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Maritieme App</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+input {
+    padding: 10px;
+    margin: 5px;
+}
+
+button {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#messages {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.message {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🚤 Maritieme App</h1>
+
+<input id="name" placeholder="Naam">
+
+<input id="message" placeholder="Bericht">
+
+<button onclick="sendMessage()">
+Versturen
+</button>
+
+<div id="messages"></div>
+
+<script type="module">
+
+import { createClient }
+from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabase = createClient(
+  'YOUR_SUPABASE_URL',
+  'YOUR_SUPABASE_ANON_KEY'
+);
+
+const messagesDiv =
+    document.getElementById("messages");
+
+function addMessage(msg) {
+
+    const div =
+        document.createElement("div");
+
+    div.className = "message";
+
+    div.innerHTML =
+        `<strong>${msg.username}</strong>: ${msg.message}`;
+
+    messagesDiv.prepend(div);
+}
+
+async function loadMessages() {
+
+    const { data, error } =
+        await supabase
+            .from("messages")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    messagesDiv.innerHTML = "";
+
+    data.forEach(addMessage);
+}
+
+window.sendMessage = async () => {
+
+    const username =
+        document.getElementById("name").value.trim();
+
+    const message =
+        document.getElementById("message").value.trim();
+
+    if (!username || !message) return;
+
+    const { error } = await supabase
+        .from("messages")
+        .insert([
+            {
+                username,
+                message
+            }
+        ]);
+
+    if (error) {
+        console.error(error);
+    }
+
+    document.getElementById("message").value = "";
+};
+
+supabase
+.channel("messages")
+.on(
+    "postgres_changes",
+    {
+        event: "INSERT",
+        schema: "public",
+        table: "messages"
+    },
+    payload => {
+        addMessage(payload.new);
+    }
+)
+.subscribe();
+
+loadMessages();
+
+</script>
+
+</body>
+</html>
