@@ -50,6 +50,7 @@ input,textarea,button{
 canvas{
     border:1px solid #000;
     max-width:100%;
+    touch-action: none;
 }
 
 </style>
@@ -292,28 +293,100 @@ img.onload=()=>{
 
 };
 
-let drawing=false;
+let drawing = false;
 
-canvas.addEventListener(
-'mousedown',
-()=>drawing=true);
+/* Muis */
 
-canvas.addEventListener(
-'mouseup',
-()=>drawing=false);
+canvas.addEventListener('mousedown', (e) => {
 
-canvas.addEventListener(
-'mousemove',
-e=>{
+    drawing = true;
 
- if(!drawing)return;
+    ctx.beginPath();
 
- ctx.fillRect(
-  e.offsetX,
-  e.offsetY,
-  3,
-  3
- );
+    ctx.moveTo(
+        e.offsetX,
+        e.offsetY
+    );
+
+});
+
+canvas.addEventListener('mousemove', (e) => {
+
+    if (!drawing) return;
+
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'red';
+    ctx.lineCap = 'round';
+
+    ctx.lineTo(
+        e.offsetX,
+        e.offsetY
+    );
+
+    ctx.stroke();
+
+});
+
+canvas.addEventListener('mouseup', () => {
+
+    drawing = false;
+
+});
+
+canvas.addEventListener('mouseleave', () => {
+
+    drawing = false;
+
+});
+
+
+/* Touch (telefoon/tablet) */
+
+canvas.addEventListener('touchstart', (e) => {
+
+    e.preventDefault();
+
+    drawing = true;
+
+    const rect = canvas.getBoundingClientRect();
+
+    const touch = e.touches[0];
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        touch.clientX - rect.left,
+        touch.clientY - rect.top
+    );
+
+});
+
+canvas.addEventListener('touchmove', (e) => {
+
+    if (!drawing) return;
+
+    e.preventDefault();
+
+    const rect = canvas.getBoundingClientRect();
+
+    const touch = e.touches[0];
+
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'red';
+    ctx.lineCap = 'round';
+
+    ctx.lineTo(
+        touch.clientX - rect.left,
+        touch.clientY - rect.top
+    );
+
+    ctx.stroke();
+
+});
+
+canvas.addEventListener('touchend', () => {
+
+    drawing = false;
 
 });
 
