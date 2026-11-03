@@ -135,11 +135,13 @@ supabase
         table: "messages"
     },
     payload => {
-        console.log("Realtime bericht:", payload);
+        console.log("Nieuw bericht:", payload);
         addMessage(payload.new);
     }
 )
-.subscribe();
+.subscribe((status) => {
+    console.log("Realtime status:", status);
+});
 
 loadMessages();
 
