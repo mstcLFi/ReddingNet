@@ -135,6 +135,7 @@ supabase
         table: "messages"
     },
     payload => {
+        console.log("Realtime bericht:", payload);
         addMessage(payload.new);
     }
 )
