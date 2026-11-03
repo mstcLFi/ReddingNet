@@ -427,59 +427,108 @@ window.clearCanvas=()=>{
 
 }
 
-window.saveDrawing=async()=>{
+window.saveDrawing = async () => {
 
- const image=
- canvas.toDataURL();
+    const image =
+        canvas.toDataURL("image/png");
 
- await supabase
- .from('drawings')
- .insert({
-  drawing:image
- });
+    const { error } =
+        await supabase
+        .from('drawings')
+        .insert({
+            drawing: image
+        });
 
- alert('Tekening opgeslagen');
+    if(error){
 
-}
+        console.error(error);
+        alert("Opslaan mislukt");
+
+        return;
+    }
+
+    console.log("Tekening opgeslagen");
+
+};
 
 async function loadDrawing(){
 
- const {data} =
- await supabase
- .from('drawings')
- .select('*')
- .order('created_at',{ascending:false})
- .limit(1);
+    const { data, error } =
+    await supabase
+    .from('drawings')
+    .select('*')
+    .order(
+        'created_at',
+        { ascending: false }
+    )
+    .limit(1);
 
- if(!data || !data.length)
-     return;
+    if(error){
 
- const drawingImage = new Image();
+        console.error(error);
+        return;
 
- drawingImage.src =
- data[0].drawing;
+    }
 
- drawingImage.onload = () => {
+    if(!data || !data.length)
+        return;
 
-   ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-   );
+    const drawingImage =
+    new Image();
 
-   ctx.drawImage(
-    drawingImage,
-    0,
-    0,
-    canvas.width,
-    canvas.height
-   );
+    drawingImage.onload = () => {
 
- };
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        ctx.drawImage(
+            drawingImage,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+    };
+
+    drawingImage.src =
+        data[0].drawing;
 
 }
 
+supabase
+.channel('drawings')
+.on(
+    'postgres_changes',
+    {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'drawings'
+    },
+    payload => {
+    
+        console.log(
+            'Nieuwe tekening ontvangen:',
+            payload
+        );
+    
+        loadDrawing();
+    
+    }
+)
+.subscribe((status) => {
+
+    console.log(
+        'Drawing realtime status:',
+        status
+    );
+
+});
+    
 /* START */
 
 loadMessages();
