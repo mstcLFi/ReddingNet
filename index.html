@@ -246,25 +246,43 @@ async function loadForm(){
 
 }
 
-window.saveForm=async()=>{
+window.saveForm = async () => {
 
  await supabase
  .from('form_data')
  .update({
-   veld1:
-   document.getElementById('veld1').value,
-
-   veld2:
-   document.getElementById('veld2').value,
-
-   veld3:
-   document.getElementById('veld3').value
+   veld1: document.getElementById('veld1').value,
+   veld2: document.getElementById('veld2').value,
+   veld3: document.getElementById('veld3').value
  })
  .eq('id',1);
 
- alert('Opgeslagen');
-
 }
+
+supabase
+.channel('form_data')
+.on(
+ 'postgres_changes',
+ {
+   event:'UPDATE',
+   schema:'public',
+   table:'form_data'
+ },
+ payload => {
+
+   document.getElementById('veld1').value =
+   payload.new.veld1 || '';
+
+   document.getElementById('veld2').value =
+   payload.new.veld2 || '';
+
+   document.getElementById('veld3').value =
+   payload.new.veld3 || '';
+
+ }
+)
+.subscribe();
+
 
 /* CANVAS */
 
@@ -430,29 +448,33 @@ async function loadDrawing(){
  await supabase
  .from('drawings')
  .select('*')
- .order(
-  'created_at',
-  {ascending:false}
- )
+ .order('created_at',{ascending:false})
  .limit(1);
 
- if(!data.length)return;
+ if(!data || !data.length)
+     return;
 
- const drawingImage =
- new Image();
+ const drawingImage = new Image();
 
  drawingImage.src =
  data[0].drawing;
 
- drawingImage.onload=()=>{
+ drawingImage.onload = () => {
 
-  ctx.drawImage(
-   drawingImage,
-   0,
-   0,
-   canvas.width,
-   canvas.height
-  );
+   ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+   );
+
+   ctx.drawImage(
+    drawingImage,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+   );
 
  };
 
