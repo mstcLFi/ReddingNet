@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tekeningen</title>
+
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="index.html" class="logo">
+        STORM
+    </a>
+
+    <nav class="nav-links">
+
+        <a href="storm.html">
+            STORM
+        </a>
+
+        <a href="notities.html">
+            Notities
+        </a>
+
+        <a class="active" href="tekeningen.html">
+            Tekeningen
+        </a>
+
+        <a href="overig.html">
+            Overig
+        </a>
+
+    </nav>
+
+</header>
+
+<div class="page">
+
+    <div class="column-title">
+        Tekeningen
+    </div>
+
+    <div class="tekening-container">
+
+        <div class="tekening-toolbar">
+
+            <button
+                id="drawMode"
+                class="active-tool">
+                Tekenen
+            </button>
+
+            <button
+                id="eraseMode">
+                Gummen
+            </button>
+
+            <button
+                id="clearCanvas">
+                Wissen
+            </button>
+
+            <button
+                id="saveCanvas">
+                Opslaan
+            </button>
+
+        </div>
+
+        <div class="canvas-grid">
+
+            <div class="canvas-panel">
+
+                <div class="canvas-title">
+                    Plattegrond
+                </div>
+
+                <div class="canvas-wrapper">
+
+                    <canvas
+                        id="plattegrondBackground"
+                        width="1200"
+                        height="800">
+                    </canvas>
+
+                    <canvas
+                        id="plattegrondDrawing"
+                        width="1200"
+                        height="800">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+            <div class="canvas-panel">
+
+                <div class="canvas-title">
+                    Kaart
+                </div>
+
+                <div class="canvas-wrapper">
+
+                    <canvas
+                        id="kaartBackground"
+                        width="1200"
+                        height="800">
+                    </canvas>
+
+                    <canvas
+                        id="kaartDrawing"
+                        width="1200"
+                        height="800">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    'https://krhrddfnrzytkedezxci.supabase.co';
+
+const SUPABASE_KEY =
+    'sb_publishable_D33yIQto6g5GTicachleYw_n35FSvKj';
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+</script>
+
+<script>
+
+let currentTool = 'draw';
+
+let drawingChanged = false;
+
+const saveButton =
+    document.getElementById(
+        'saveCanvas'
+    );
+
+function createDrawingCanvas(
+
+    backgroundCanvasId,
+    drawingCanvasId,
+    imageFile
+
+){
+
+    const backgroundCanvas =
+        document.getElementById(
+            backgroundCanvasId
+        );
+
+    const drawingCanvas =
+        document.getElementById(
+            drawingCanvasId
+        );
+
+    const backgroundCtx =
+        backgroundCanvas.getContext('2d');
+
+    const drawingCtx =
+        drawingCanvas.getContext('2d');
+
+    const img =
+        new Image();
+
+    img.src = imageFile;
+
+    img.onload = () => {
+
+        console.log(
+            imageFile,
+            'geladen'
+        );
+
+        backgroundCtx.drawImage(
+            img,
+            0,
+            0,
+            backgroundCanvas.width,
+            backgroundCanvas.height
+        );
+
+    };
+
+
+
+    let drawing = false;
+
+    drawingCtx.strokeStyle = 'red';
+    drawingCtx.lineWidth = 3;
+    drawingCtx.lineCap = 'round';
+
+    function getPosition(event){
+
+        const rect =
+            drawingCanvas
+                .getBoundingClientRect();
+
+        const scaleX =
+            drawingCanvas.width /
+            rect.width;
+
+        const scaleY =
+            drawingCanvas.height /
+            rect.height;
+
+        if(event.touches){
+
+            return {
+
+                x:
+                    (event.touches[0].clientX -
+                    rect.left) *
+                    scaleX,
+
+                y:
+                    (event.touches[0].clientY -
+                    rect.top) *
+                    scaleY
+
+            };
+
+        }
+
+        return {
+
+            x:
+                (event.clientX -
+                rect.left) *
+                scaleX,
+
+            y:
+                (event.clientY -
+                rect.top) *
+                scaleY
+
+        };
+
+    }
+
+    function startDrawing(event){
+
+        drawing = true;
+
+        const pos =
+            getPosition(event);
+
+        drawingCtx.beginPath();
+
+        drawingCtx.moveTo(
+            pos.x,
+            pos.y
+        );
+
+    }
+
+    function draw(event){
+
+        if(!drawing){
+            return;
+        }
+
+        event.preventDefault();
+
+        const pos =
+            getPosition(event);
+
+        drawingCtx.save();
+
+        if(currentTool === 'erase'){
+
+            drawingCtx.globalCompositeOperation =
+                'destination-out';
+
+            drawingCtx.lineWidth = 25;
+
+        }else{
+
+            drawingCtx.globalCompositeOperation =
+                'source-over';
+
+            drawingCtx.strokeStyle = 'red';
+
+            drawingCtx.lineWidth = 3;
+
+        }
+
+        drawingCtx.lineTo(
+            pos.x,
+            pos.y
+        );
+
+        drawingCtx.stroke();
+
+        drawingCtx.restore();
+
+        markUnsaved();
+
+    }
+
+    function stopDrawing(){
+
+        drawing = false;
+    }
+
+    drawingCanvas.addEventListener(
+        'mousedown',
+        startDrawing
+    );
+
+    drawingCanvas.addEventListener(
+        'mousemove',
+        draw
+    );
+
+    drawingCanvas.addEventListener(
+        'mouseup',
+        stopDrawing
+    );
+
+    drawingCanvas.addEventListener(
+        'mouseleave',
+        stopDrawing
+    );
+
+    drawingCanvas.addEventListener(
+        'touchstart',
+        startDrawing
+    );
+
+    drawingCanvas.addEventListener(
+        'touchmove',
+        draw
+    );
+
+    drawingCanvas.addEventListener(
+        'touchend',
+        stopDrawing
+    );
+
+    return {
+
+        backgroundCanvas,
+        drawingCanvas,
+        drawingCtx,
+        img
+
+    };
+
+}
+
+const plattegrond =
+    createDrawingCanvas(
+        'plattegrondBackground',
+        'plattegrondDrawing',
+        'plattegrond.png'
+    );
+
+const kaart =
+    createDrawingCanvas(
+        'kaartBackground',
+        'kaartDrawing',
+        'kaart.png'
+    );
+
+document
+    .getElementById(
+        'drawMode'
+    )
+    .addEventListener(
+        'click',
+        () => {
+
+            currentTool = 'draw';
+
+            document
+                .getElementById(
+                    'drawMode'
+                )
+                .classList.add(
+                    'active-tool'
+                );
+
+            document
+                .getElementById(
+                    'eraseMode'
+                )
+                .classList.remove(
+                    'active-tool'
+                );
+        }
+    );
+
+document
+    .getElementById(
+        'eraseMode'
+    )
+    .addEventListener(
+        'click',
+        () => {
+
+            currentTool = 'erase';
+
+            document
+                .getElementById(
+                    'eraseMode'
+                )
+                .classList.add(
+                    'active-tool'
+                );
+
+            document
+                .getElementById(
+                    'drawMode'
+                )
+                .classList.remove(
+                    'active-tool'
+                );
+        }
+    );
+
+function markUnsaved(){
+
+    if(drawingChanged){
+        return;
+    }
+
+    drawingChanged = true;
+
+    saveButton.classList.add(
+        'unsaved'
+    );
+
+    saveButton.textContent =
+        'Opslaan !';
+}
+
+function markSaved(){
+
+    drawingChanged = false;
+
+    saveButton.classList.remove(
+        'unsaved'
+    );
+
+    saveButton.textContent =
+        'Opslaan';
+}
+
+async function loadDrawing(){
+
+    const { data, error } =
+        await supabaseClient
+            .from('drawings')
+            .select('*')
+            .eq('id', 1)
+            .single();
+
+    if(error){
+
+        console.error(error);
+
+        return;
+    }
+
+    if(
+        !data
+    ){
+        return;
+    }
+
+    if(data.plattegrond_drawing){
+
+        const img =
+            new Image();
+
+        img.onload = () => {
+
+            plattegrond.drawingCtx.clearRect(
+                0,
+                0,
+                plattegrond.drawingCanvas.width,
+                plattegrond.drawingCanvas.height
+            );
+
+            plattegrond.drawingCtx.drawImage(
+                img,
+                0,
+                0
+            );
+
+        };
+
+        img.src =
+            data.plattegrond_drawing;
+    }
+
+    if(data.kaart_drawing){
+
+        const img =
+            new Image();
+
+        img.onload = () => {
+
+            kaart.drawingCtx.clearRect(
+                0,
+                0,
+                kaart.drawingCanvas.width,
+                kaart.drawingCanvas.height
+            );
+
+            kaart.drawingCtx.drawImage(
+                img,
+                0,
+                0
+            );
+
+        };
+
+        img.src =
+            data.kaart_drawing;
+    }
+}
+
+document
+    .getElementById(
+        'clearCanvas'
+    )
+    .addEventListener(
+        'click',
+        () => {
+
+            if(
+                !confirm(
+                    'Alles wissen?'
+                )
+            ){
+                return;
+            }
+
+            [
+                plattegrond,
+                kaart
+            ]
+            .forEach(item => {
+
+                item.drawingCtx.clearRect(
+                    0,
+                    0,
+                    item.drawingCanvas.width,
+                    item.drawingCanvas.height
+                );
+
+            });
+
+            markUnsaved();
+
+        }
+    );
+
+document
+    .getElementById(
+        'saveCanvas'
+    )
+    .addEventListener(
+        'click',
+        async () => {
+
+            const plattegrondImage =
+                plattegrond.drawingCanvas
+                    .toDataURL(
+                        'image/png'
+                    );
+
+            const kaartImage =
+                kaart.drawingCanvas
+                    .toDataURL(
+                        'image/png'
+                    );
+
+            const { error } =
+                await supabaseClient
+                    .from('drawings')
+                    .update({
+
+                        plattegrond_drawing:
+                            plattegrondImage,
+
+                        kaart_drawing:
+                            kaartImage
+
+                    })
+                    .eq('id', 1);
+
+            if(error){
+
+                console.error(error);
+
+                alert(
+                    'Opslaan mislukt'
+                );
+
+                return;
+            }
+
+            markSaved();
+
+        }
+    );
+
+
+loadDrawing();
+
+supabaseClient
+
+    .channel(
+        'drawings'
+    )
+
+    .on(
+        'postgres_changes',
+        {
+
+            event:'UPDATE',
+
+            schema:'public',
+
+            table:'drawings'
+
+        },
+
+        () => {
+
+            loadDrawing();
+
+        }
+    )
+
+    .subscribe();
+
+</script>
+
+</body>
+
+</html>

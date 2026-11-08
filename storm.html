@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STORM</title>
+
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="index.html" class="logo">
+        STORM
+    </a>
+
+    <nav class="nav-links">
+
+        <a class="active" href="storm.html">STORM</a>
+
+        <a href="notities.html">Notities</a>
+
+        <a href="tekeningen.html">Tekeningen</a>
+
+        <a href="overig.html">Overig</a>
+
+    </nav>
+
+</header>
+
+<div class="storm-page">
+
+    <div class="storm-header">
+        <h1 class="storm">STORM</h1>
+    </div>
+
+    <div class="layout">
+
+        <!-- LINKS -->
+
+        <div class="column">
+
+            <div class="column-title">
+                Aanloopkaart info CIS
+            </div>
+
+            <div class="panel-grid" id="leftGrid">
+
+                <div class="grid-row">
+                    <div class="panel panel-white">
+
+                        <div class="panel-header">
+                            1. Overkoepelend
+                        </div>
+
+                        <div class="panel-content table-panel">
+
+                            <div class="info-table">
+
+                                <div class="info-row">
+
+                                    <div class="info-label">
+                                        a. KWC
+                                    </div>
+
+                                    <button
+                                        class="choice-btn"
+                                        data-group="kwc"
+                                        data-value="true">
+                                        Ja
+                                    </button>
+
+                                    <button
+                                        class="choice-btn"
+                                        data-group="kwc"
+                                        data-value="false">
+                                        Nee
+                                    </button>
+
+                                    <input
+                                        type="text"
+                                        id="kwc-opmerking"
+                                        data-field="kwcOpmerking">
+
+                                </div>
+
+                                <div class="info-row">
+
+                                    <div class="info-label">
+                                        b. Meldkamer
+                                    </div>
+
+                                    <button
+                                        class="choice-btn"
+                                        data-group="meldkamer"
+                                        data-value="true">
+                                        Ja
+                                    </button>
+
+                                    <button
+                                        class="choice-btn"
+                                        data-group="meldkamer"
+                                        data-value="false">
+                                        Nee
+                                    </button>
+
+                                    <input
+                                        type="text"
+                                        id="meldkamer-opmerking"
+                                        data-field="meldkamerOpmerking">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="grid-row">
+                    <div class="panel panel-green">
+
+                        <div class="panel-header">
+                            2. Mensen
+                        </div>
+
+                        <div class="panel-content table-panel">
+
+                            <div class="mensen-top">
+
+                                <!-- Linksboven -->
+
+                                <table class="storm-table">
+
+                                    <tr>
+                                        <th>Groepen</th>
+                                        <th>Aantal</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>a. Bemanning</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="bemanningAantal"
+                                                data-field="bemanningAantal">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>b. Passagiers</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="bemanningAantal"
+                                                data-field="bemanningAantal">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>c. Slachtoffer aantal</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="slachtofferAantal"
+                                                value="0"
+                                                data-field="slachtofferAantal">
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                                <!-- Rechtsboven -->
+
+                                <table class="storm-table">
+
+                                    <tr>
+                                        <th></th>
+                                        <th>Aan boord</th>
+                                        <th>Van boord</th>
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>T1</td>
+
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="t1AanBoord"
+                                                data-field="t1AanBoord">
+                                        </td>
+
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="t1VanBoord"
+                                                data-field="t1VanBoord">
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>T2</td>
+
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="t2AanBoord"
+                                                data-field="t2AanBoord">
+                                        </td>
+
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="t2VanBoord"
+                                                data-field="t2VanBoord">
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>T3</td>
+
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="t3AanBoord"
+                                                data-field="t3AanBoord">
+                                        </td>
+
+                                        <td>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                id="t3VanBoord"
+                                                data-field="t3VanBoord">
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+
+                                </div>
+
+                            <!-- Onder -->
+
+                            <div class="slachtofferblok">
+
+                                <table class="storm-table slachtoffer-table">
+
+                                    <thead>
+
+                                        <tr>
+                                            <th>
+                                                d. Slachtoffer specifiek
+                                            </th>
+
+                                            <th>
+                                                Beschrijving
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody id="slachtofferTabelBody">
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="grid-row">
+                    <div class="panel panel-yellow">
+
+                        <div class="panel-header">
+                            3. Incident schip
+                        </div>
+
+                        <div class="panel-content table-panel">
+
+                            <table class="storm-table">
+
+                                <tr>
+                                    <td>a. Varend</td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="varend"
+                                            data-value="true">
+                                            JA
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="varend"
+                                            data-value="false">
+                                            NEE
+                                        </button>
+                                    </td>
+
+                                    <td colspan="2">
+                                        <input
+                                            type="text"
+                                            id="varendOpmerking"
+                                            data-field="varendOpmerking">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>b. Voorstuwing</td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="voorstuwing"
+                                            data-value="true">
+                                            JA
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="voorstuwing"
+                                            data-value="false">
+                                            NEE
+                                        </button>
+                                    </td>
+
+                                    <td colspan="2">
+                                        <input
+                                            type="text"
+                                            id="voorstuwingOpmerking"
+                                            data-field="voorstuwingOpmerking">
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        c. Is de bemanning capabel zelf de boot te varen
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="capabel"
+                                            data-value="true">
+                                            JA
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="capabel"
+                                            data-value="false">
+                                            NEE
+                                        </button>
+                                    </td>
+
+                                    <td colspan="2">
+                                        <input
+                                            type="text"
+                                            id="capabelOpmerking"
+                                            data-field="capabelOpmerking">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>d. Is het schip lek</td>
+
+                                    <td>
+
+                                        <button
+                                            class="choice-btn danger-choice"
+                                            data-group="lek"
+                                            data-value="true">
+                                            JA
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn danger-choice"
+                                            data-group="lek"
+                                            data-value="false">
+                                            NEE
+                                        </button>
+                                    </td>
+
+                                    <td colspan="2">
+                                        <input
+                                            type="text"
+                                            id="lekOpmerking"
+                                            data-field="lekOpmerking">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>e. Is er brand</td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn danger-choice"
+                                            data-group="brand"
+                                            data-value="true">
+                                            JA
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn danger-choice"
+                                            data-group="brand"
+                                            data-value="false">
+                                            NEE
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="brand_geweest"
+                                            data-value="true">
+                                            GEWEEST
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="brandOpmerking"
+                                            data-field="brandOpmerking">
+
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="grid-row">
+                    <div class="panel panel-yellow">
+
+                        <div class="panel-header">
+                            4. Algemene situatie incident schip
+                        </div>
+
+                        <div class="panel-content table-panel">
+
+                            <!-- A. GEMUSTERD -->
+
+                            <table class="storm-table">
+
+                                <tr>
+
+                                    <td>a. Gemusterd</td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="gemusterd"
+                                            data-value="true">
+                                            JA
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button
+                                            class="choice-btn"
+                                            data-group="gemusterd"
+                                            data-value="false">
+                                            NEE
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="gemusterdOpmerking"
+                                            data-field="gemusterdOpmerking">
+                                    </td>
+
+                                </tr>
+
+                                <tr
+                                    id="gemusterdLocatieRow"
+                                    class="hidden-row">
+
+                                    <td colspan="4">
+
+                                        <div class="sub-field">
+
+                                            <label for="gemusterdLocatie">
+
+                                                Locatie gemusterd:
+
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                id="gemusterdLocatie"
+                                                data-field="gemusterdLocatie">
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+
+                            <!-- B. ONGEVALLEN -->
+
+                            <table class="storm-table">
+
+                                <tr>
+                                    <th colspan="2">
+                                        b. Ongevallen
+                                    </th>
+                                </tr>
+
+                                <tr>
+
+                                    <td class="small-label">
+                                        Ongeval 1
+                                    </td>
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            id="ongeval1"
+                                            data-field="ongeval1">
+
+                                    </td>
+
+                                </tr>
+
+                                <tr
+                                    id="ongeval2Row"
+                                    style="display:none;">
+
+                                    <td class="small-label">
+                                        Ongeval 2
+                                    </td>
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            id="ongeval2"
+                                            data-field="ongeval2">
+
+                                    </td>
+
+                                </tr>
+
+                                <tr
+                                    id="ongeval3Row"
+                                    style="display:none;">
+
+                                    <td class="small-label">
+                                        Ongeval 3
+                                    </td>
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            id="ongeval3"
+                                            data-field="ongeval3">
+
+                                    </td>
+
+                                </tr>
+                                <tr
+                                    id="ongeval4Row"
+                                    style="display:none;">
+
+                                    <td class="small-label">
+                                        Ongeval 4
+                                    </td>
+
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="ongeval4"
+                                            data-field="ongeval4">
+                                    </td>
+
+                                </tr>
+
+                                <tr
+                                    id="ongeval5Row"
+                                    style="display:none;">
+
+                                    <td class="small-label">
+                                        Ongeval 5
+                                    </td>
+
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="ongeval5"
+                                            data-field="ongeval5">
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                            <!-- C. MIDDELEN -->
+
+                            <table class="storm-table">
+
+                                <tr>
+                                    <th colspan="2">
+                                        c. Middelen aan boord van incident schip voor bestrijding
+                                    </th>
+                                </tr>
+
+                                <tr>
+
+                                    <td class="small-label">
+                                        Middel 1
+                                    </td>
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            id="middel1"
+                                            data-field="middel1">
+
+                                    </td>
+
+                                </tr>
+
+                                <tr
+                                    id="middel2Row"
+                                    style="display:none;">
+
+                                    <td class="small-label">
+                                        Middel 2
+                                    </td>
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            id="middel2"
+                                            data-field="middel2">
+
+                                    </td>
+
+                                </tr>
+
+                                <tr
+                                    id="middel3Row"
+                                    style="display:none;">
+
+                                    <td class="small-label">
+                                        Middel 3
+                                    </td>
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            id="middel3"
+                                            data-field="middel3">
+
+                                    </td>
+
+                                </tr>
+                                <tr
+                                    id="middel4Row"
+                                    style="display:none;">
+
+                                    <td class="small-label">
+                                        Middel 4
+                                    </td>
+
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="middel4"
+                                            data-field="middel4">
+                                    </td>
+
+                                </tr>
+
+                                <tr
+                                    id="middel5Row"
+                                    style="display:none;">
+
+                                    <td class="small-label">
+                                        Middel 5
+                                    </td>
+
+                                    <td>
+                                        <input
+                                            type="text"
+                                            id="middel5"
+                                            data-field="middel5">
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="grid-row">
+                    <div class="panel panel-red">
+
+                        <div class="panel-header">
+                            5. Hulpverleners
+                        </div>
+
+                        <div class="panel-content table-panel">
+
+                            <table
+                                class="storm-table hulpverleners-table"
+                                id="hulpverlenersTable">
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PIJLEN -->
+
+        <div class="arrow-column">
+
+            <div class="arrow-title"></div>
+
+            <div class="arrow-grid" id="arrowGrid">
+
+                <div class="arrow-row"></div>
+
+                <div class="arrow-row">
+
+                    <svg viewBox="0 0 100 40">
+                        <path d="M0 15 H65 V5 L100 20 L65 35 V25 H0 Z"
+                            fill="#0066cc"
+                            stroke="#003f7f"
+                            stroke-width="2"/>
+                    </svg>
+
+                </div>
+
+                <div class="arrow-row">
+
+                    <svg viewBox="0 0 100 40">
+                        <path d="M0 15 H65 V5 L100 20 L65 35 V25 H0 Z"
+                            fill="#0066cc"
+                            stroke="#003f7f"
+                            stroke-width="2"/>
+                    </svg>
+
+                </div>
+
+                <div class="arrow-row">
+
+                    <svg viewBox="0 0 100 40">
+                        <path d="M0 15 H65 V5 L100 20 L65 35 V25 H0 Z"
+                            fill="#0066cc"
+                            stroke="#003f7f"
+                            stroke-width="2"/>
+                    </svg>
+
+                </div>
+
+                <div class="arrow-row arrow-up">
+
+                    <svg viewBox="0 0 100 40">
+                        <path d="M0 15 H65 V5 L100 20 L65 35 V25 H0 Z"
+                            fill="#0066cc"
+                            stroke="#003f7f"
+                            stroke-width="2"/>
+                    </svg>
+
+                </div>
+
+                <div class="arrow-row empty"></div>
+
+            </div>
+
+        </div>
+
+        <!-- MIDDEN -->
+
+        <div class="column">
+
+            <div class="column-title">
+                Plan
+            </div>
+
+            <div class="panel-grid" id="middleGrid">
+
+                <div class="grid-row ghost">
+                    <div class="placeholder"></div>
+                </div>
+
+                <div class="grid-row">
+                    <div class="panel panel-green">
+
+                        <div class="panel-header">
+                            Mensen
+                        </div>
+
+                        <div class="panel-content plan-grid">
+
+                            <div class="plan-label">Plan 1</div>
+                            <textarea
+                                class="plan-input"
+                                id="mensenPlan1"
+                                data-field="mensenPlan1"></textarea>
+
+                            <div class="plan-label">Plan 2</div>
+                            <textarea
+                                class="plan-input"
+                                id="mensenPlan2"
+                                data-field="mensenPlan2"></textarea>
+
+                            <div class="plan-label">Plan 3</div>
+                            <textarea
+                                class="plan-input"
+                                id="mensenPlan3"
+                                data-field="mensenPlan3"></textarea>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="grid-row">
+                    <div class="panel panel-yellow">
+
+                        <div class="panel-header">
+                            Incident schip
+                        </div>
+
+                        <div class="panel-content plan-grid">
+
+                            <div class="plan-label">Plan 1</div>
+                            <textarea
+                                class="plan-input"
+                                id="incidentPlan1"
+                                data-field="incidentPlan1"></textarea>
+
+                            <div class="plan-label">Plan 2</div>
+                            <textarea
+                                class="plan-input"
+                                id="incidentPlan2"
+                                data-field="incidentPlan2"></textarea>
+
+                            <div class="plan-label">Plan 3</div>
+                            <textarea
+                                class="plan-input"
+                                id="incidentPlan3"
+                                data-field="incidentPlan3"></textarea>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="grid-row">
+                    <div class="panel panel-striped">
+
+                        <div class="panel-header">
+                            Hulpverleners
+                        </div>
+
+                        <div class="panel-content plan-grid">
+
+                            <div class="plan-label">Plan 1</div>
+                            <textarea
+                                class="plan-input"
+                                id="hulpverlenersPlan1"
+                                data-field="hulpverlenersPlan1"></textarea>
+
+                            <div class="plan-label">Plan 2</div>
+                            <textarea
+                                class="plan-input"
+                                id="hulpverlenersPlan2"
+                                data-field="hulpverlenersPlan2"></textarea>
+
+                            <div class="plan-label">Plan 3</div>
+                            <textarea
+                                class="plan-input"
+                                id="hulpverlenersPlan3"
+                                data-field="hulpverlenersPlan3"></textarea>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="grid-row ghost">
+                    <div class="placeholder"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    'https://krhrddfnrzytkedezxci.supabase.co';
+
+const SUPABASE_KEY =
+    'sb_publishable_D33yIQto6g5GTicachleYw_n35FSvKj';
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+</script>
+
+<script src="storm-config.js"></script>
+<script src="storm.js"></script>
+</body>
+</html>

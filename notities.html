@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notities</title>
+
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="index.html" class="logo">
+        STORM
+    </a>
+
+    <nav class="nav-links">
+
+        <a href="storm.html">STORM</a>
+
+        <a class="active" href="notities.html">
+            Notities
+        </a>
+
+        <a href="tekeningen.html">Tekeningen</a>
+
+        <a href="overig.html">Overig</a>
+
+    </nav>
+
+</header>
+
+<div class="page">
+
+    <div class="column-title">
+        Logboek CIS-aCIS
+    </div>
+
+    <div class="logbook-container">
+
+        <div class="message-form">
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Naam">
+
+            <textarea id="message" placeholder="Bericht"></textarea>
+
+            <button id="sendButton">
+                Versturen
+            </button>
+
+        </div>
+
+        <div id="messages"></div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    'https://krhrddfnrzytkedezxci.supabase.co';
+
+const SUPABASE_KEY =
+    'sb_publishable_D33yIQto6g5GTicachleYw_n35FSvKj';
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+</script>
+
+<script src="notities.js"></script>
+
+</body>
+
+</html>

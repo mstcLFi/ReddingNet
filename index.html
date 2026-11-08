@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STORM</title>
+
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="logo">
+            STORM
+        </div>
+
+        <nav class="nav-links">
+
+            <a href="storm.html">STORM</a>
+
+            <a href="notities.html">Notities</a>
+
+            <a href="tekeningen.html">Tekeningen</a>
+
+            <a href="overig.html">Overig</a>
+
+        </nav>
+
+    </header>
+
+    <main class="home-page">
+
+        <h1>STORM</h1>
+
+        <p class="subtitle">
+            Situation Tracking & Operational Response Management
+        </p>
+
+        <div class="card-grid">
+
+            <a class="home-card" href="storm.html">
+                <h2>STORM</h2>
+                <p>Operationeel overzicht en planvorming.</p>
+            </a>
+
+            <a class="home-card" href="notities.html">
+                <h2>Notities</h2>
+                <p>Logboek en tekstuele informatie.</p>
+            </a>
+
+            <a class="home-card" href="tekeningen.html">
+                <h2>Tekeningen</h2>
+                <p>Schetsen en visualisaties.</p>
+            </a>
+
+            <a class="home-card" href="overig.html">
+                <h2>Overig</h2>
+                <p>Overige hulpmiddelen.</p>
+            </a>
+
+        </div>
+
+        <div class="actie-panel">
+
+            <button
+                id="newActionButton"
+                class="danger-button">
+
+                Nieuwe actie
+
+            </button>
+
+        </div>
+
+    </main>
+
+<script>
+
+document
+    .getElementById(
+        'newActionButton'
+    )
+    .addEventListener(
+        'click',
+        async () => {
+
+            if(
+                !confirm(
+                    'Alle STORM-data, notities en tekeningen verwijderen?'
+                )
+            ){
+                return;
+            }
+
+            try{
+
+                await supabaseClient
+                    .from('storm')
+                    .update({
+                        data:{}
+                    })
+                    .eq('id',1);
+
+                await supabaseClient
+                    .from('messages')
+                    .delete()
+                    .neq('id',0);
+
+                await supabaseClient
+                    .from('drawings')
+                    .update({
+                        plattegrond_drawing:'',
+                        kaart_drawing:''
+                    })
+                    .eq('id',1);
+
+                alert(
+                    'Nieuwe actie gestart.'
+                );
+
+            }catch(error){
+
+                console.error(error);
+
+                alert(
+                    'Verwijderen mislukt.'
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    'https://krhrddfnrzytkedezxci.supabase.co';
+
+const SUPABASE_KEY =
+    'sb_publishable_D33yIQto6g5GTicachleYw_n35FSvKj';
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+</script>
+
+</body>
+</html>
